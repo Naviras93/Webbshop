@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C055F396-D9E5-43D3-BA5E-4C868A1D3353}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Webbshop</RootNamespace>
+    <AssemblyName>Webbshop</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DatabaseScript\DatabaseDataScript.txt" />
+    <Content Include="DatabaseScript\DatabasSchemaScript.txt" />
+    <Content Include="Images\Aldo Laser Orange.jpg" />
+    <Content Include="Images\banne1.jpg" />
+    <Content Include="Images\Blackpack Leather black.jpg" />
+    <Content Include="Images\Blink Patent Barely Black.jpg" />
+    <Content Include="Images\Calvin Klein Esther - Leather Black.jpg" />
+    <Content Include="Images\Clutch Bag Black.jpg" />
+    <Content Include="Images\Dune Dobbly Leather Brown.jpg" />
+    <Content Include="Images\Faith Litchfield Black.jpg" />
+    <Content Include="Images\Fiorelli Asher Leather Brown.jpg" />
+    <Content Include="Images\Fiorelli Paloma - Pink.jpg" />
+    <Content Include="Images\Fiorelli Paloma Brown.jpg" />
+    <Content Include="Images\Fiorelli Rita - Blue &amp; White.jpg" />
+    <Content Include="Images\Fiorelli Rita White.jpg" />
+    <Content Include="Images\Jack Wills - Leather Black &amp; White.jpg" />
+    <Content Include="Images\Jamila Laser Black.jpg" />
+    <Content Include="Images\Jamila Laser Pink.jpg" />
+    <Content Include="Images\Karen Millen Glitter Gray.jpg" />
+    <Content Include="Images\Keds Champion Blue.jpg" />
+    <Content Include="Images\Keds Champion Brown.jpg" />
+    <Content Include="Images\Keds Champion White.jpg" />
+    <Content Include="Images\Marca Jacob Scallop Leather Brown.jpg" />
+    <Content Include="Images\Maritian Wide Fit Black.jpg" />
+    <Content Include="Images\Maritian Wide Fit Brown.jpg" />
+    <Content Include="Images\New Look Block Black.jpg" />
+    <Content Include="Images\New Look Grid Crochet - white.jpg" />
+    <Content Include="Images\New Look SLeek - White.jpg" />
+    <Content Include="Images\New Look Wide Fit Black.jpg" />
+    <Content Include="Images\Pieces Stripe Canvas - Black &amp; White.jpg" />
+    <Content Include="Images\Pieces Tan East West - LEather Brown.jpg" />
+    <Content Include="Images\Reema Pointed Leather Black.jpg" />
+    <Content Include="Images\Reema Pointed Leather Brown.jpg" />
+    <Content Include="Images\River Island - Black &amp; white.jpg" />
+    <Content Include="Images\Suede Shoulder Gray.jpg" />
+    <Content Include="Images\Ted  Baker Patent - Pink &amp; black.jpg" />
+    <Content Include="Images\trygg_e-handel.png" />
+    <Content Include="Images\Vagabond Alexis BLack.jpg" />
+    <Content Include="Images\Vagabond Dioon Gold.jpg" />
+    <Content Include="Images\Vagabond Emma White.jpg" />
+    <Content Include="Images\Vagabond Linda Black.jpg" />
+    <Content Include="Images\Vagabond Lindi Double Strap Black.jpg" />
+    <Content Include="Images\Vagand Leather Half Moon - Black.jpg" />
+    <Content Include="Images\Warehouse Leather Brown.jpg" />
+    <Content Include="Private Pages\Products.aspx" />
+    <Content Include="MasterPage.Master" />
+    <Content Include="Private Pages\ShoppingCart.aspx" />
+    <Content Include="Public Pages\default.aspx" />
+    <Content Include="Public Pages\Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="Public Pages\Login.aspx" />
+    <Content Include="Public Pages\Register.aspx" />
+    <Content Include="Styles\StyleSheet.css" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Public Pages\default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Public Pages\default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Public Pages\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Public Pages\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MasterPage.Master.cs">
+      <DependentUpon>MasterPage.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MasterPage.Master.designer.cs">
+      <DependentUpon>MasterPage.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Private Pages\Products.aspx.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Private Pages\Products.aspx.designer.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Public Pages\Register.aspx.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Public Pages\Register.aspx.designer.cs">
+      <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Private Pages\ShoppingCart.aspx.cs">
+      <DependentUpon>ShoppingCart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Private Pages\ShoppingCart.aspx.designer.cs">
+      <DependentUpon>ShoppingCart.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\ClassLibrary.csproj">
+      <Project>{1c916ac3-1117-4cd8-9d5c-2fe9bef60d11}</Project>
+      <Name>ClassLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>19837</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:19837/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

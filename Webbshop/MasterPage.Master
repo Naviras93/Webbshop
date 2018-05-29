@@ -1,0 +1,86 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="Webbshop.MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Väskor & Skor</title>
+    <link rel="stylesheet" href="Styles/StyleSheet.css" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        .auto-style5 {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <div id="wrapper">
+            <div id="banner">
+                <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/banne1.jpg" width="100%"/>
+            </div>
+            <div id="navigation">
+            <ul id="nav">
+                <li>
+                    <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Private Pages/Products.aspx" >Webbshop</asp:HyperLink></li>
+               
+                <li style="float:right">
+                    <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/Public Pages/Register.aspx">Ny kund</asp:HyperLink>
+                </li>
+                <li style="float:right">
+                    <asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/Private Pages/ShoppingCart.aspx">Kassa</asp:HyperLink>
+                </li>
+                 <li style="float:right">
+                    <asp:HyperLink ID="HyperLink4" Visible="false" runat="server" NavigateUrl="~/Public Pages/Login.aspx">Logga in</asp:HyperLink> </li>
+               
+            </ul>
+
+                </div>
+             <div id="content">
+             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+             </asp:ContentPlaceHolder>
+             </div>
+             
+            <div class="container">
+    <div class="column-center"><h3 class="auto-style5" style="width:200px; height:auto">Väskor & Skor</h3>
+         <p>
+                            Om oss<br />
+                            Vi söker medarbetare!<br />
+                            Presentkort<br />
+                            Press<br />
+                            Företagsinformation<br />
+                            Sekretesspolicy<br />
+                            Allmänna affärsvillkor<br />
+                            Användarvillkor<br />
+   </p>
+    </div>
+   <div class="column-left"><h3 class="auto-style5" style="width:200px; height:auto">Kundtjänst</h3>
+       <p>
+                            Kontakt<br />
+                            Hjälp<br />
+                            Affiliateprogram<br />
+                            Marknadsföringsmöjligheter<br />
+                            Modelexikon<br />
+   </p></div>
+   <div class="column-right"><h3 class="auto-style5" style="width:200px; height:auto">Trygg e-handel</h3>
+       <p style="margin-right:10px;"><asp:Image ID="Image2" runat="server" style="width:42px; float:left" ImageUrl="~/Images/trygg_e-handel.png"></asp:Image>
+          
+                            VS.se är certifierat
+                            av Trygg e-handel
+                            (en del av Svensk distanshandel)
+                            kan känna dig 
+                            trygg när du handlar på VS.se.
+                            Systemets kontrollprocess
+                            identifierar dig som en unik användare.
+   </p>
+   </div>
+</div>
+       
+             </div>
+
+    </div>
+    </form>
+</body>
+</html>

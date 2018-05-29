@@ -1,0 +1,366 @@
+﻿USE [master]
+GO
+/****** Object:  Database [MyWebstore]    Script Date: 2015-03-30 21:29:23 ******/
+CREATE DATABASE [MyWebstore]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'MyWebstore', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyWebstore.mdf' , SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
+ LOG ON 
+( NAME = N'MyWebstore_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL11.MSSQLSERVER\MSSQL\DATA\MyWebstore_log.ldf' , SIZE = 1024KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+GO
+ALTER DATABASE [MyWebstore] SET COMPATIBILITY_LEVEL = 110
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [MyWebstore].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [MyWebstore] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [MyWebstore] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [MyWebstore] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [MyWebstore] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [MyWebstore] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [MyWebstore] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [MyWebstore] SET AUTO_CREATE_STATISTICS ON 
+GO
+ALTER DATABASE [MyWebstore] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [MyWebstore] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [MyWebstore] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [MyWebstore] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [MyWebstore] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [MyWebstore] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [MyWebstore] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [MyWebstore] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [MyWebstore] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [MyWebstore] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [MyWebstore] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [MyWebstore] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [MyWebstore] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [MyWebstore] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [MyWebstore] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [MyWebstore] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [MyWebstore] SET RECOVERY FULL 
+GO
+ALTER DATABASE [MyWebstore] SET  MULTI_USER 
+GO
+ALTER DATABASE [MyWebstore] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [MyWebstore] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [MyWebstore] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [MyWebstore] SET TARGET_RECOVERY_TIME = 0 SECONDS 
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'MyWebstore', N'ON'
+GO
+USE [MyWebstore]
+GO
+/****** Object:  StoredProcedure [dbo].[uspAddNewCustomer]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create PROCEDURE [dbo].[uspAddNewCustomer]
+@Firstname    nvarchar(50),
+@Lastname     nvarchar(50),
+@EmailAddress nvarchar(50),
+@Address      nvarchar(50),
+@Zipcode      int,
+@Phonenumber  nvarchar(50),
+@Username     nvarchar(50),
+@Password     nvarchar(50)
+AS
+BEGIN
+INSERT INTO dbo.Customer(Firstname , Lastname , Emailaddress , [Address],  Zipcode,  Phonenumber,  UserName, [Password])
+VALUES                  (@Firstname, @Lastname, @EmailAddress, @Address , @Zipcode, @Phonenumber, @Username, @Password)
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[uspAddNewOrder]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create PROCEDURE [dbo].[uspAddNewOrder]
+@CustomerID   int,
+@ItemID       int,
+@OrderQuantity int,
+@DeliveryAdress	 nvarchar(50)
+AS
+BEGIN
+    INSERT INTO dbo.[Order](CustomerID, ItemID, OrderQuantity, OrderDate, DeliveryAdress)
+    VALUES                 (@CustomerID, @ItemID, @OrderQuantity, GETDATE(),@DeliveryAdress)
+
+	UPDATE dbo.Inventory
+SET Quantity = Quantity - @OrderQuantity
+WHERE ItemID = @ItemID
+END
+GO
+/****** Object:  StoredProcedure [dbo].[uspAddToShoppingCart]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE Procedure [dbo].[uspAddToShoppingCart] 
+@ItemID int,
+@CustomerID int
+
+AS
+
+Begin
+If((Select Count(*) From ShoppingCart Where ItemID = @ItemID)<1)
+Begin
+Insert Into ShoppingCart
+Select ItemID, [Description], Price, [Image], @CustomerID From Items Where ItemID = @ItemID
+END
+End
+GO
+/****** Object:  StoredProcedure [dbo].[uspGetCustomerID]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create Procedure [dbo].[uspGetCustomerID]
+  @UserName nvarchar(50)
+
+AS
+BEGIN
+Select CostumerID From Customer Where UserName = @UserName;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[uspLoginWeb]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[uspLoginWeb]
+@Username nvarchar(50),
+@Password nvarchar(50)
+AS
+BEGIN
+IF EXISTS(SELECT UserName FROM dbo.Customer WHERE Username = @Username and [Password] = @Password)
+    Begin
+	Select 1 as ReturnCode
+	End
+ELSE
+    Begin
+    Select 0 as ReturnCode
+	end
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[uspRefineSearch]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[uspRefineSearch]
+@CategoryID     int          = NULL,
+@Color          nvarchar(50) = NULL,
+@Price          int        = NULL
+
+AS 
+BEGIN
+
+IF (@Price = 1)
+BEGIN
+    SELECT *
+	FROM dbo.Items
+	WHERE   (Items.CategoryID	     = @CategoryID		OR @CategoryID IS NULL) AND
+	        (Items.Color			 = @Color			OR @Color IS NULL)      AND
+			(Items.Price			 < 200                               )      
+			
+	END
+	IF (@Price = 2)
+BEGIN
+    SELECT *
+	FROM dbo.Items
+	WHERE   (Items.CategoryID		 = @CategoryID	    OR @CategoryID IS NULL) AND
+	        (Items.Color			 = @Color			OR @Color IS NULL)      AND
+			(Items.Price		     BETWEEN 200 AND 500)                     
+	END
+	IF (@Price = 3)
+BEGIN
+    SELECT *
+	FROM dbo.Items
+	WHERE   (Items.CategoryID	     = @CategoryID		OR @CategoryID IS NULL) AND
+	        (Items.Color			 = @Color			OR @Color IS NULL)      AND
+			(Items.Price			 > 500)                              	
+			END
+	ELSE
+BEGIN
+    SELECT *
+	FROM dbo.Items
+	WHERE   (Items.CategoryID	     = @CategoryID  	OR @CategoryID IS NULL) AND
+	        (Items.Color			 = @Color			OR @Color IS NULL)      AND
+			(Items.Price			 = @Price			OR @Price IS NULL)    
+	END
+END
+
+GO
+/****** Object:  Table [dbo].[Categories]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Categories](
+	[CategoryID] [tinyint] IDENTITY(1,1) NOT NULL,
+	[CategoryName] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED 
+(
+	[CategoryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Customer]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customer](
+	[CostumerID] [int] IDENTITY(1,1) NOT NULL,
+	[Firstname] [nvarchar](50) NOT NULL,
+	[Lastname] [nvarchar](50) NOT NULL,
+	[Emailaddress] [nvarchar](50) NOT NULL,
+	[Address] [nvarchar](50) NOT NULL,
+	[Zipcode] [int] NOT NULL,
+	[Phonenumber] [nvarchar](50) NOT NULL,
+	[UserName] [nvarchar](50) NOT NULL,
+	[Password] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
+(
+	[CostumerID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Inventory]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Inventory](
+	[InventoryID] [int] IDENTITY(1,1) NOT NULL,
+	[ItemID] [int] NULL,
+	[Quantity] [int] NULL,
+ CONSTRAINT [PK_Inventory] PRIMARY KEY CLUSTERED 
+(
+	[InventoryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Items]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Items](
+	[ItemID] [int] IDENTITY(1,1) NOT NULL,
+	[CategoryID] [tinyint] NOT NULL,
+	[Color] [nvarchar](50) NOT NULL,
+	[Price] [int] NOT NULL,
+	[IsAvailable] [bit] NOT NULL,
+	[Description] [text] NOT NULL,
+	[Image] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED 
+(
+	[ItemID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Order]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Order](
+	[OrderID] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerID] [int] NOT NULL,
+	[ItemID] [int] NOT NULL,
+	[OrderQuantity] [int] NOT NULL,
+	[OrderDate] [datetime] NOT NULL,
+	[DeliveryAdress] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Order] PRIMARY KEY CLUSTERED 
+(
+	[OrderID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[ShoppingCart]    Script Date: 2015-03-30 21:29:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ShoppingCart](
+	[SCItemID] [int] IDENTITY(1,1) NOT NULL,
+	[ItemID] [int] NOT NULL,
+	[Description] [nvarchar](50) NOT NULL,
+	[Price] [int] NOT NULL,
+	[Image] [nvarchar](50) NOT NULL,
+	[CustomerID] [int] NOT NULL,
+ CONSTRAINT [PK_ShoppingCart] PRIMARY KEY CLUSTERED 
+(
+	[SCItemID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+ALTER TABLE [dbo].[Items] ADD  CONSTRAINT [DF_Items_IsAvailable]  DEFAULT ((1)) FOR [IsAvailable]
+GO
+ALTER TABLE [dbo].[Order] ADD  CONSTRAINT [DF_Order_OrderDate]  DEFAULT (getdate()) FOR [OrderDate]
+GO
+ALTER TABLE [dbo].[Inventory]  WITH CHECK ADD  CONSTRAINT [FK_Inventory_Items] FOREIGN KEY([ItemID])
+REFERENCES [dbo].[Items] ([ItemID])
+GO
+ALTER TABLE [dbo].[Inventory] CHECK CONSTRAINT [FK_Inventory_Items]
+GO
+ALTER TABLE [dbo].[Items]  WITH CHECK ADD  CONSTRAINT [FK_Items_Categories] FOREIGN KEY([CategoryID])
+REFERENCES [dbo].[Categories] ([CategoryID])
+GO
+ALTER TABLE [dbo].[Items] CHECK CONSTRAINT [FK_Items_Categories]
+GO
+ALTER TABLE [dbo].[Order]  WITH CHECK ADD  CONSTRAINT [FK_Order_Customer] FOREIGN KEY([CustomerID])
+REFERENCES [dbo].[Customer] ([CostumerID])
+GO
+ALTER TABLE [dbo].[Order] CHECK CONSTRAINT [FK_Order_Customer]
+GO
+ALTER TABLE [dbo].[Order]  WITH CHECK ADD  CONSTRAINT [FK_Order_Items] FOREIGN KEY([ItemID])
+REFERENCES [dbo].[Items] ([ItemID])
+GO
+ALTER TABLE [dbo].[Order] CHECK CONSTRAINT [FK_Order_Items]
+GO
+ALTER TABLE [dbo].[ShoppingCart]  WITH CHECK ADD  CONSTRAINT [FK_ShoppingCart_Items] FOREIGN KEY([ItemID])
+REFERENCES [dbo].[Items] ([ItemID])
+GO
+ALTER TABLE [dbo].[ShoppingCart] CHECK CONSTRAINT [FK_ShoppingCart_Items]
+GO
+USE [master]
+GO
+ALTER DATABASE [MyWebstore] SET  READ_WRITE 
+GO
